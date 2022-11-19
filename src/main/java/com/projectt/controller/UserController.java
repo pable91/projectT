@@ -6,11 +6,10 @@ import com.projectt.dto.LoginUserDto;
 import com.projectt.dto.SignupUserDto;
 import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
+import com.projectt.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,11 +40,10 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity profile(@RequestHeader(value = "Authorization") String token) {
-        User user = jwtTokenProvider.getUserByToken(token);
+    public ResponseEntity profile() {
+        User currentUser = SecurityUtil.getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("사용자가 없습니다"));
 
-        System.out.println(user.toString());
-
-        return SuccessResponse.toProfileResponseEntity(user);
+        return SuccessResponse.toProfileResponseEntity(currentUser);
     }
 }

@@ -22,7 +22,6 @@ public class UserService {
 
         Optional<User> findUser = userRepository.findByUserId(userId);
         if(findUser.isPresent()) {
-            // TODO
             throw new RuntimeException("이미 존재함");
         }
 

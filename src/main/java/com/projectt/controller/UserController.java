@@ -1,15 +1,16 @@
 package com.projectt.controller;
 
 import com.projectt.domain.User;
+import com.projectt.domain.response.SuccessResponse;
 import com.projectt.dto.LoginUserDto;
 import com.projectt.dto.SignupUserDto;
 import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,23 +21,31 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody SignupUserDto signupUserDto) {
+    public ResponseEntity signUp(@RequestBody SignupUserDto signupUserDto) {
         System.out.println(signupUserDto.toString());
 
         User signup = userService.signup(signupUserDto);
         System.out.println(signup.toString());
 
-        // TODO
-        return "signup";
+        return SuccessResponse.toSignUpResponseEntity(signup);
     }
 
     @PostMapping("/signin")
-    public String login(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity login(@RequestBody LoginUserDto loginUserDto) {
         System.out.println(loginUserDto.toString());
 
         User user = userService.login(loginUserDto);
         String token = jwtTokenProvider.createToken(user.getUserId());
 
-        return token;
+        return SuccessResponse.toLoginResponseEntity(token);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity profile(@RequestHeader(value = "Authorization") String token) {
+        User user = jwtTokenProvider.getUserByToken(token);
+
+        System.out.println(user.toString());
+
+        return SuccessResponse.toProfileResponseEntity(user);
     }
 }

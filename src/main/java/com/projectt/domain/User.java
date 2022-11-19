@@ -23,4 +23,13 @@ public class User {
         this.userId = userId;
         this.pw = pw;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", pw='" + pw + '\'' +
+                '}';
+    }
 }

@@ -42,4 +42,14 @@ public class SuccessResponse<T> {
                 );
     }
 
+    public static ResponseEntity<SuccessResponse> toProfileResponseEntity(Object data) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(SuccessResponse.builder()
+                        .result("Success")
+                        .type("현재 로그인한 유저 조회")
+                        .data(data)
+                        .build()
+                );
+    }
 }

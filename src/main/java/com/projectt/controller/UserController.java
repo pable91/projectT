@@ -1,7 +1,9 @@
 package com.projectt.controller;
 
 import com.projectt.domain.User;
-import com.projectt.dto.UserDto;
+import com.projectt.dto.LoginUserDto;
+import com.projectt.dto.SignupUserDto;
+import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,17 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody UserDto userDto) {
-        System.out.println(userDto.getUserid());
-        System.out.println(userDto.getPw());
-        System.out.println(userDto.getUsername());
+    public String signUp(@RequestBody SignupUserDto signupUserDto) {
+        System.out.println(signupUserDto.toString());
 
-        User signup = userService.signup(userDto);
+        User signup = userService.signup(signupUserDto);
         System.out.println(signup.toString());
 
         // TODO
-        return "sa";
+        return "signup";
+    }
+
+    @PostMapping("/signin")
+    public String login(@RequestBody LoginUserDto loginUserDto) {
+        System.out.println(loginUserDto.toString());
+
+        User user = userService.login(loginUserDto);
+        String token = jwtTokenProvider.createToken(user.getUserId());
+
+        return token;
     }
 }

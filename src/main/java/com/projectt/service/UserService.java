@@ -1,14 +1,13 @@
 package com.projectt.service;
 
-import com.projectt.domain.model.User;
 import com.projectt.domain.dto.LoginUserDto;
 import com.projectt.domain.dto.SignupUserDto;
+import com.projectt.domain.model.User;
 import com.projectt.repository.UserRepository;
 import com.projectt.util.ErrorCode;
 import com.projectt.util.exception.AlreadyExistUser;
 import com.projectt.util.exception.NotFoundUserException;
 import com.projectt.util.exception.WrongPasswordException;
-import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public User signup(SignupUserDto signupUserDto) {
         String userId = signupUserDto.getUserid();
 
@@ -53,7 +53,6 @@ public class UserService {
         return findUser;
     }
 
-    @Transactional
     public void increasePointByAddArticle(User user) {
         User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
                 () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)

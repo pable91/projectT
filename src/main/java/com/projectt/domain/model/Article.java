@@ -1,6 +1,7 @@
 package com.projectt.domain.model;
 
-import com.projectt.dto.AddArticleDto;
+import com.projectt.domain.dto.AddArticleDto;
+import com.projectt.domain.dto.UpdateArticleDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -35,6 +36,11 @@ public class Article {
         return new Article(articleDto.getArticleTitle(), articleDto.getArticleTitle(), user);
     }
 
+    public void update(UpdateArticleDto articleDto) {
+        this.title = articleDto.getArticleTitle();
+        this.contents = articleDto.getArticleContents();
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -44,4 +50,6 @@ public class Article {
                 ", user=" + user +
                 '}';
     }
+
+
 }

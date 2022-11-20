@@ -14,4 +14,12 @@ public class MyPointDto {
     public static MyPointDto from(User user) {
         return new MyPointDto(user.getUserId(), user.getPoint());
     }
+
+    @Override
+    public String toString() {
+        return "MyPointDto{" +
+                "userId='" + userId + '\'' +
+                ", point=" + point +
+                '}';
+    }
 }

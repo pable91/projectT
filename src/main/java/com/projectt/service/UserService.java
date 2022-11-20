@@ -60,4 +60,13 @@ public class UserService {
 
         findUser.increasePointByAddArticle();
     }
+
+    public void decreasePointByDeleteArticle(User user) {
+        User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
+                () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
+        );
+
+        findUser.decreasePointByAddArticle();
+
+    }
 }

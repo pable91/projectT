@@ -4,10 +4,9 @@ import com.projectt.domain.dto.UpdateArticleDto;
 import com.projectt.domain.model.Article;
 import com.projectt.domain.model.User;
 import com.projectt.domain.dto.AddArticleDto;
-import com.projectt.repository.ActionRepository;
+import com.projectt.repository.ArticleRepository;
 import com.projectt.util.ErrorCode;
 import com.projectt.util.exception.NotFoundArticleException;
-import com.projectt.util.exception.NotFoundUserException;
 import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,26 +17,42 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ActionService {
+public class ArticleService {
 
-    private final ActionRepository actionRepository;
+    private final ArticleRepository articleRepository;
 
     public Article addArticle(AddArticleDto articleDto) {
         Optional<User> currentUser = SecurityUtil.getCurrentUser();
 
         Article article = Article.of(articleDto, currentUser.get());
 
-        actionRepository.save(article);
+        articleRepository.save(article);
 
         return article;
     }
 
     public Article updateArticle(UpdateArticleDto articleDto) {
-        Article article = actionRepository.findById(articleDto.getArticleId()).orElseThrow(
+        Article article = articleRepository.findById(articleDto.getArticleId()).orElseThrow(
                 () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
         );
 
         article.update(articleDto);
+
+        return article;
+    }
+
+    public Article findById(Long articleId) {
+        return articleRepository.findById(articleId).orElseThrow(
+                () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
+        );
+    }
+
+    public Article delete(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(
+                () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
+        );
+
+        articleRepository.delete(article);
 
         return article;
     }

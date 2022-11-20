@@ -13,11 +13,13 @@ import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -28,17 +30,17 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> signUp(@RequestBody SignupUserDto signupUserDto) {
-        System.out.println(signupUserDto.toString());
+        log.info(signupUserDto.toString());
 
         User newUser = userService.signup(signupUserDto);
-        System.out.println(newUser.toString());
+        log.info(newUser.toString());
 
         return ResponseEntity.ok(new UserResponseDto(newUser));
     }
 
     @PostMapping("/signin")
     public ResponseEntity<TokenResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
-        System.out.println(loginUserDto.toString());
+        log.info(loginUserDto.toString());
 
         User user = userService.login(loginUserDto);
         String token = jwtTokenProvider.createToken(user.getUserId());

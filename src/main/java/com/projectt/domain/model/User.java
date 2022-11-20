@@ -40,4 +40,8 @@ public class User {
     public void increasePointByAddArticle() {
         point += 3;
     }
+
+    public void decreasePointByAddArticle() {
+        point -= 3;
+    }
 }

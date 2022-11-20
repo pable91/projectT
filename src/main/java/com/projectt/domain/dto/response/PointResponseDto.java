@@ -15,12 +15,4 @@ public class PointResponseDto {
         this.userId = currentUser.getUserId();
         this.point = currentUser.getPoint();
     }
-
-    @Override
-    public String toString() {
-        return "MyPointDto{" +
-                "userId='" + userId + '\'' +
-                ", point=" + point +
-                '}';
-    }
 }

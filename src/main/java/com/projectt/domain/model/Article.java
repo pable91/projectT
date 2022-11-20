@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,9 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "id")
     private User user;
+
+    @OneToMany(mappedBy = "article")
+    private List<Comment> commentList = new ArrayList<>();
 
     private Article(String articleTitle, String articleContents, User user) {
         this.title = articleTitle;

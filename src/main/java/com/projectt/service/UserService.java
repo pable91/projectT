@@ -4,10 +4,10 @@ import com.projectt.domain.dto.LoginUserDto;
 import com.projectt.domain.dto.SignupUserDto;
 import com.projectt.domain.model.User;
 import com.projectt.repository.UserRepository;
-import com.projectt.util.ErrorCode;
-import com.projectt.util.exception.AlreadyExistUser;
-import com.projectt.util.exception.NotFoundUserException;
-import com.projectt.util.exception.WrongPasswordException;
+import com.projectt.common.ErrorCode;
+import com.projectt.common.exception.AlreadyExistUser;
+import com.projectt.common.exception.NotFoundUserException;
+import com.projectt.common.exception.WrongPasswordException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,6 +67,13 @@ public class UserService {
         );
 
         findUser.decreasePointByAddArticle();
+    }
 
+    public void increasePointByAddComments(User user, int point) {
+        User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
+                () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
+        );
+
+        findUser.increasePointByAddComments(point);
     }
 }

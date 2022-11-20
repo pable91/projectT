@@ -44,4 +44,8 @@ public class User {
     public void decreasePointByAddArticle() {
         point -= 3;
     }
+
+    public void increasePointByAddComments(int point) {
+        this.point += point;
+    }
 }

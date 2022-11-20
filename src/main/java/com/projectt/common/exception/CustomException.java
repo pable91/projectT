@@ -1,6 +1,6 @@
-package com.projectt.util.exception;
+package com.projectt.common.exception;
 
-import com.projectt.util.ErrorCode;
+import com.projectt.common.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

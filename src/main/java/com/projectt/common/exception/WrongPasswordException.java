@@ -1,6 +1,6 @@
-package com.projectt.util.exception;
+package com.projectt.common.exception;
 
-import com.projectt.util.ErrorCode;
+import com.projectt.common.ErrorCode;
 
 public class WrongPasswordException extends CustomException {
 

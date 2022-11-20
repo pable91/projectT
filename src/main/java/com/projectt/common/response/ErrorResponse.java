@@ -1,6 +1,6 @@
-package com.projectt.util.response;
+package com.projectt.common.response;
 
-import com.projectt.util.ErrorCode;
+import com.projectt.common.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.projectt.util;
+package com.projectt.common;
 
 
 import lombok.AllArgsConstructor;

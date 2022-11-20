@@ -1,17 +1,17 @@
-package com.projectt.domain;
+package com.projectt.domain.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,8 @@ public class User {
     private String pw;
 
     private int point;
+
+//    private List<Article> articleList = new ArrayList<>();
 
     public User(String userId, String pw) {
         this.userId = userId;
@@ -33,5 +35,9 @@ public class User {
                 ", userId='" + userId + '\'' +
                 ", pw='" + pw + '\'' +
                 '}';
+    }
+
+    public void increasePointByAddArticle() {
+        point += 3;
     }
 }

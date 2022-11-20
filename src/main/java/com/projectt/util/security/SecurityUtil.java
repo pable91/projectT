@@ -1,6 +1,6 @@
 package com.projectt.util.security;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;

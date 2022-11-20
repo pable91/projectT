@@ -1,6 +1,6 @@
 package com.projectt.jwt;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import com.projectt.service.UserInfoService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

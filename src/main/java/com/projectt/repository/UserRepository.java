@@ -1,6 +1,6 @@
 package com.projectt.repository;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

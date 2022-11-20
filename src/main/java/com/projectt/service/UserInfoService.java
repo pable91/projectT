@@ -1,6 +1,6 @@
 package com.projectt.service;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import com.projectt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

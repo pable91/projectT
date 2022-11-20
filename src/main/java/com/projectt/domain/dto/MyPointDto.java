@@ -1,6 +1,6 @@
 package com.projectt.domain.dto;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

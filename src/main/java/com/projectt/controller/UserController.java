@@ -1,6 +1,6 @@
 package com.projectt.controller;
 
-import com.projectt.domain.User;
+import com.projectt.domain.model.User;
 import com.projectt.domain.dto.MyPointDto;
 import com.projectt.util.ErrorCode;
 import com.projectt.util.exception.NotFoundUserException;
@@ -11,7 +11,6 @@ import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

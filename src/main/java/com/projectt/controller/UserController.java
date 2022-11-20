@@ -1,13 +1,17 @@
 package com.projectt.controller;
 
 import com.projectt.domain.User;
-import com.projectt.domain.response.SuccessResponse;
-import com.projectt.dto.LoginUserDto;
-import com.projectt.dto.SignupUserDto;
+import com.projectt.domain.dto.MyPointDto;
+import com.projectt.util.ErrorCode;
+import com.projectt.util.exception.NotFoundUserException;
+import com.projectt.util.response.SuccessResponse;
+import com.projectt.domain.dto.LoginUserDto;
+import com.projectt.domain.dto.SignupUserDto;
 import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
-import com.projectt.util.SecurityUtil;
+import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +46,16 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity profile() {
         User currentUser = SecurityUtil.getCurrentUser()
-                .orElseThrow(() -> new RuntimeException("사용자가 없습니다"));
+                .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
 
         return SuccessResponse.toProfileResponseEntity(currentUser);
+    }
+
+    @GetMapping("/points")
+    public ResponseEntity<MyPointDto> viewMyPoints() {
+        User currentUser = SecurityUtil.getCurrentUser()
+                .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
+
+        return ResponseEntity.ok(MyPointDto.from(currentUser));
     }
 }

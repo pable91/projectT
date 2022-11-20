@@ -1,4 +1,4 @@
-package com.projectt.util;
+package com.projectt.util.security;
 
 import com.projectt.domain.User;
 import org.slf4j.Logger;

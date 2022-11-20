@@ -19,6 +19,8 @@ public class User {
     private String userId;
     private String pw;
 
+    private int point;
+
     public User(String userId, String pw) {
         this.userId = userId;
         this.pw = pw;

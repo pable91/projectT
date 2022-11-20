@@ -1,12 +1,17 @@
 package com.projectt.service;
 
 import com.projectt.domain.User;
-import com.projectt.dto.LoginUserDto;
-import com.projectt.dto.SignupUserDto;
+import com.projectt.domain.dto.LoginUserDto;
+import com.projectt.domain.dto.SignupUserDto;
 import com.projectt.repository.UserRepository;
+import com.projectt.util.ErrorCode;
+import com.projectt.util.exception.AlreadyExistUser;
+import com.projectt.util.exception.NotFoundUserException;
+import com.projectt.util.exception.WrongPasswordException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,12 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public User signup(SignupUserDto signupUserDto) {
         String userId = signupUserDto.getUserid();
 
         Optional<User> findUser = userRepository.findByUserId(userId);
         if(findUser.isPresent()) {
-            throw new RuntimeException("이미 존재함");
+            throw new AlreadyExistUser(ErrorCode.ALREADY_EXIST_USER);
         }
 
         String pw = passwordEncoder.encode(signupUserDto.getPw());
@@ -31,18 +37,18 @@ public class UserService {
         return user;
     }
 
+    @Transactional(readOnly = true)
     public User login(LoginUserDto loginUserDto) {
         String userId = loginUserDto.getUserid();
 
         User findUser = userRepository.findByUserId(userId).orElseThrow(
-                () -> new RuntimeException("그런 아이디는 존재하지 않음")
+                () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
         );
 
         if(!passwordEncoder.matches(loginUserDto.getPw(), findUser.getPw())) {
-            throw new RuntimeException("비밀번호를 잘못 입력하였습니다");
+            throw new WrongPasswordException(ErrorCode.WRONG_PASSWORD);
         }
 
         return findUser;
     }
-
 }

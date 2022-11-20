@@ -1,4 +1,4 @@
-package com.projectt.domain.response;
+package com.projectt.util.response;
 
 import lombok.Builder;
 import lombok.Getter;

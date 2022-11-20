@@ -1,7 +1,9 @@
 package com.projectt.controller;
 
+import com.projectt.domain.dto.response.TokenResponseDto;
+import com.projectt.domain.dto.response.UserResponseDto;
 import com.projectt.domain.model.User;
-import com.projectt.domain.dto.MyPointDto;
+import com.projectt.domain.dto.response.PointResponseDto;
 import com.projectt.util.ErrorCode;
 import com.projectt.util.exception.NotFoundUserException;
 import com.projectt.util.response.SuccessResponse;
@@ -11,6 +13,8 @@ import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import com.projectt.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,38 +27,41 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestBody SignupUserDto signupUserDto) {
+    public ResponseEntity<UserResponseDto> signUp(@RequestBody SignupUserDto signupUserDto) {
         System.out.println(signupUserDto.toString());
 
-        User signup = userService.signup(signupUserDto);
-        System.out.println(signup.toString());
+        User newUser = userService.signup(signupUserDto);
+        System.out.println(newUser.toString());
 
-        return SuccessResponse.toSignUpResponseEntity(signup);
+        return ResponseEntity.ok(new UserResponseDto(newUser));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity login(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
         System.out.println(loginUserDto.toString());
 
         User user = userService.login(loginUserDto);
         String token = jwtTokenProvider.createToken(user.getUserId());
 
-        return SuccessResponse.toLoginResponseEntity(token);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("JWT", token);
+
+        return new ResponseEntity(new TokenResponseDto(token), httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/profile")
-    public ResponseEntity profile() {
+    public ResponseEntity<UserResponseDto> profile() {
         User currentUser = SecurityUtil.getCurrentUser()
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
 
-        return SuccessResponse.toProfileResponseEntity(currentUser);
+        return ResponseEntity.ok(new UserResponseDto(currentUser));
     }
 
     @GetMapping("/points")
-    public ResponseEntity<MyPointDto> viewMyPoints() {
+    public ResponseEntity<PointResponseDto> viewMyPoints() {
         User currentUser = SecurityUtil.getCurrentUser()
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
 
-        return ResponseEntity.ok(MyPointDto.from(currentUser));
+        return ResponseEntity.ok(new PointResponseDto(currentUser));
     }
 }

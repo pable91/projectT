@@ -1,5 +1,6 @@
 package com.projectt.controller;
 
+import com.projectt.domain.dto.response.ArticleResponseDto;
 import com.projectt.domain.model.Article;
 import com.projectt.domain.dto.AddArticleDto;
 import com.projectt.domain.dto.UpdateArticleDto;
@@ -21,7 +22,7 @@ public class ActionController {
     private final UserService userService;
 
     @PostMapping("/article")
-    public ResponseEntity<Long> writeArticle(@RequestBody AddArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody AddArticleDto articleDto) {
         System.out.println(articleDto.toString());
 
         Article article = actionService.addArticle(articleDto);
@@ -31,15 +32,15 @@ public class ActionController {
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER))
         );
 
-        return ResponseEntity.ok(article.getId());
+        return ResponseEntity.ok(new ArticleResponseDto(article));
     }
 
     @PutMapping("/article")
-    public ResponseEntity<Long> updateArticle(@RequestBody UpdateArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody UpdateArticleDto articleDto) {
         System.out.println(articleDto.toString());
 
         Article article = actionService.updateArticle(articleDto);
 
-        return ResponseEntity.ok(article.getId());
+        return ResponseEntity.ok(new ArticleResponseDto(article));
     }
 }

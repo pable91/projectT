@@ -7,6 +7,8 @@ public class CommentsResponseDto {
     private Long articleId;
     private Long commentsId;
 
+    public CommentsResponseDto() {};
+
     public CommentsResponseDto(Long articleId, Long commentsId) {
         this.articleId = articleId;
         this.commentsId = commentsId;

@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-public class ArticleAcceptanceTest {
+public class ArticleControllerTest {
 
     @Test
     @DisplayName("글 관련 인수테스트")
     void articleTest() {
         // 회원가입
-        SignupUserDto signupUserDto = new SignupUserDto("userid", "1234", "kim");
+        SignupUserDto signupUserDto = new SignupUserDto("userid2", "1234", "kim");
         UserResponseDto userResponseDto = client()
                 .post()
                 .uri("/user/signup")
@@ -30,10 +30,10 @@ public class ArticleAcceptanceTest {
                 .expectBody(UserResponseDto.class)
                 .returnResult().getResponseBody();
 
-        Assertions.assertThat(userResponseDto.getUserid()).isEqualTo("userid");
+        Assertions.assertThat(userResponseDto.getUserid()).isEqualTo("userid2");
 
         // 로그인
-        LoginUserDto loginUserDto = new LoginUserDto("userid", "1234");
+        LoginUserDto loginUserDto = new LoginUserDto("userid2", "1234");
         TokenResponseDto tokenResponseDto = client()
                 .post()
                 .uri("user/signin")
@@ -57,11 +57,10 @@ public class ArticleAcceptanceTest {
                 .expectBody(ArticleResponseDto.class)
                 .returnResult().getResponseBody();
 
-        // 첫번째 등록한 글이기때문에 1
-        Assertions.assertThat(articleResponseDto.getArticleId()).isEqualTo(1);
+        Long articleId = articleResponseDto.getArticleId();
 
         // 글 수정
-        UpdateArticleDto updateArticleDto = new UpdateArticleDto(1L, "articleTitle1 update", "article Contents1 update");
+        UpdateArticleDto updateArticleDto = new UpdateArticleDto(articleId, "articleTitle1 update", "article Contents1 update");
         client()
                 .put()
                 .uri("article")
@@ -73,7 +72,7 @@ public class ArticleAcceptanceTest {
         // 글 수정 후 조회
         ArticleViewResponseDto articleViewResponseDto = client()
                 .get()
-                .uri("article/1")
+                .uri("article/" + articleId)
                 .header("Authorization", token)
                 .exchange()
                 .expectStatus().isOk()
@@ -86,7 +85,7 @@ public class ArticleAcceptanceTest {
         // 글 삭제
         client()
                 .delete()
-                .uri("article/1")
+                .uri("article/" + articleId)
                 .header("Authorization", token)
                 .exchange()
                 .expectStatus().isOk();
@@ -94,7 +93,7 @@ public class ArticleAcceptanceTest {
         // 글 삭제 후 조회
         client()
                 .get()
-                .uri("article/1")
+                .uri("article/" + articleId)
                 .header("Authorization", token)
                 .exchange()
                 .expectStatus().isBadRequest();

@@ -28,7 +28,9 @@ public class WebSecurityConfig  {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/h2-console/**"
                 , "/favicon.ico"
-                , "/error");
+                , "/error"
+                , "/v2/api-docs", "/swagger-resources/**"
+                , "/swagger-ui.html", "/webjars/**", "/swagger/**");
     }
 
     @Bean

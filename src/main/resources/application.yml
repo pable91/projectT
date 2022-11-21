@@ -13,7 +13,13 @@ spring:
       ddl-auto: create
     generate-ddl: true
 
+# swagger ui를 위한 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 jwt:
   header: Authorization
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
+

@@ -1,5 +1,7 @@
 package com.projectt.domain.model;
 
+import com.projectt.common.ErrorCode;
+import com.projectt.common.exception.PointValueException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class User {
+
+    private static final int ZERO = 0;
+    private static final int POINT_BY_ADD_ARTICLE = 3;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,20 +35,20 @@ public class User {
                 '}';
     }
     public void increasePointByAddArticle() {
-        point += 3;
+        point += POINT_BY_ADD_ARTICLE;
     }
     public void decreasePointByAddArticle() {
-        point -= 3;
+        point -= POINT_BY_ADD_ARTICLE;
     }
     public void increasePointByAddComments(int point) {
-        if(point < 0) {
-            throw new RuntimeException("point 값은 양수만 가능합니다");
+        if(point <= ZERO) {
+            throw new PointValueException(ErrorCode.POINT_VALUE_ONLY_POSITIVE);
         }
         this.point += point;
     }
     public void decreasePointByAddComments(int point) {
-        if(point < 0) {
-            throw new RuntimeException("point 값은 양수만 가능합니다");
+        if(point <= ZERO) {
+            throw new PointValueException(ErrorCode.POINT_VALUE_ONLY_POSITIVE);
         }
         this.point -= point;
     }

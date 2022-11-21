@@ -13,7 +13,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 public class UserAcceptanceTest {
-
     @Test
     @DisplayName("유저 관련된 인수테스트")
     void userTest() {

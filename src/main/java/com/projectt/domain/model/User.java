@@ -5,9 +5,10 @@ import com.projectt.common.exception.PointValueException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -16,6 +17,7 @@ public class User {
 
     private static final int ZERO = 0;
     private static final int POINT_BY_ADD_ARTICLE = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +28,7 @@ public class User {
     public User(String userId, String pw) {
         this.userId = userId;
         this.pw = pw;
+        this.point = 0;
     }
 
     @Override

@@ -22,10 +22,12 @@ public class User {
     private String userId;
     private String pw;
     private int point;
+
     public User(String userId, String pw) {
         this.userId = userId;
         this.pw = pw;
     }
+
     @Override
     public String toString() {
         return "User{" +
@@ -34,20 +36,24 @@ public class User {
                 ", pw='" + pw + '\'' +
                 '}';
     }
+
     public void increasePointByAddArticle() {
         point += POINT_BY_ADD_ARTICLE;
     }
+
     public void decreasePointByAddArticle() {
         point -= POINT_BY_ADD_ARTICLE;
     }
+
     public void increasePointByAddComments(int point) {
-        if(point <= ZERO) {
+        if (point <= ZERO) {
             throw new PointValueException(ErrorCode.POINT_VALUE_ONLY_POSITIVE);
         }
         this.point += point;
     }
+
     public void decreasePointByAddComments(int point) {
-        if(point <= ZERO) {
+        if (point <= ZERO) {
             throw new PointValueException(ErrorCode.POINT_VALUE_ONLY_POSITIVE);
         }
         this.point -= point;

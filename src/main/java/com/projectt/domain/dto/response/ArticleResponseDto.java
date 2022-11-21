@@ -7,7 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ArticleResponseDto {
+
     private Long articleId;
+
+    public ArticleResponseDto() {};
+
     public ArticleResponseDto(Article article) {
         this.articleId = article.getId();
     }

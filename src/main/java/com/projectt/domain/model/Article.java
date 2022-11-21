@@ -25,20 +25,25 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList = new ArrayList<>();
+
     private Article(String articleTitle, String articleContents, User user) {
         this.title = articleTitle;
         this.contents = articleContents;
         this.user = user;
     }
+
     public Article() {
     }
+
     public static Article of(AddArticleDto articleDto, User user) {
         return new Article(articleDto.getArticleTitle(), articleDto.getArticleTitle(), user);
     }
+
     public void update(UpdateArticleDto articleDto) {
         this.title = articleDto.getArticleTitle();
         this.contents = articleDto.getArticleContents();
     }
+
     @Override
     public String toString() {
         return "Article{" +

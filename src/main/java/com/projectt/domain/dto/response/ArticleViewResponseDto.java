@@ -12,14 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class ArticleViewResponseDto {
+
     private Long articleId;
+    private String title;
+    private String contents;
     private List<Long> commentIds;
+
+    public ArticleViewResponseDto() {};
+
     public static ArticleViewResponseDto of(Article article) {
         List<Long> list = new ArrayList<>();
         for (int i = 0; i < article.getCommentList().size(); ++i) {
             list.add(article.getCommentList().get(i).getId());
         }
 
-        return new ArticleViewResponseDto(article.getId(), list);
+        return new ArticleViewResponseDto(article.getId(), article.getTitle(), article.getContents(), list);
     }
 }

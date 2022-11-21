@@ -9,7 +9,9 @@ import lombok.Getter;
 public class PointResponseDto {
     private String userId;
     private int point;
+
     public PointResponseDto() {};
+
     public PointResponseDto(User currentUser) {
         this.userId = currentUser.getUserId();
         this.point = currentUser.getPoint();

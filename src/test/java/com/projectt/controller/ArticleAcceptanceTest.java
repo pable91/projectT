@@ -1,23 +1,24 @@
 package com.projectt.controller;
 
+import com.projectt.domain.dto.AddArticleDto;
 import com.projectt.domain.dto.LoginUserDto;
 import com.projectt.domain.dto.SignupUserDto;
-import com.projectt.domain.dto.response.PointResponseDto;
+import com.projectt.domain.dto.UpdateArticleDto;
+import com.projectt.domain.dto.response.ArticleResponseDto;
+import com.projectt.domain.dto.response.ArticleViewResponseDto;
 import com.projectt.domain.dto.response.TokenResponseDto;
 import com.projectt.domain.dto.response.UserResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-public class UserAcceptanceTest {
+public class ArticleAcceptanceTest {
 
     @Test
-    @DisplayName("유저 관련된 인수테스트")
-    void userTest() {
+    @DisplayName("글 관련 인수테스트")
+    void articleTest() {
         // 회원가입
         SignupUserDto signupUserDto = new SignupUserDto("userid", "1234", "kim");
         UserResponseDto userResponseDto = client()
@@ -44,35 +45,57 @@ public class UserAcceptanceTest {
 
         String token = "Bearer " + tokenResponseDto.getToken();
 
-        // 사용자 조회
-        UserResponseDto userProfileResponse = client()
+        // 글 등록
+        AddArticleDto addArticleDto = new AddArticleDto("articleTitle1", "article Contents1");
+        ArticleResponseDto articleResponseDto = client()
+                .post()
+                .uri("article")
+                .header("Authorization", token)
+                .body(Mono.just(addArticleDto), AddArticleDto.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(ArticleResponseDto.class)
+                .returnResult().getResponseBody();
+
+        // 첫번째 등록한 글이기때문에 1
+        Assertions.assertThat(articleResponseDto.getArticleId()).isEqualTo(1);
+
+        // 글 수정
+        UpdateArticleDto updateArticleDto = new UpdateArticleDto(1L, "articleTitle1 update", "article Contents1 update");
+        client()
+                .put()
+                .uri("article")
+                .header("Authorization", token)
+                .body(Mono.just(updateArticleDto), UpdateArticleDto.class)
+                .exchange()
+                .expectStatus().isOk();
+
+        // 글 수정 후 조회
+        ArticleViewResponseDto articleViewResponseDto = client()
                 .get()
-                .uri("/user/profile")
+                .uri("article/1")
                 .header("Authorization", token)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(UserResponseDto.class)
+                .expectBody(ArticleViewResponseDto.class)
                 .returnResult().getResponseBody();
 
-        Assertions.assertThat(userProfileResponse.getUserid()).isEqualTo("userid");
+        Assertions.assertThat(articleViewResponseDto.getTitle()).isEqualTo("articleTitle1 update");
+        Assertions.assertThat(articleViewResponseDto.getContents()).isEqualTo("article Contents1 update");
 
-        // 사용자 점수 조회
-        PointResponseDto pointResponseDto = client()
-                .get()
-                .uri("/user/points")
+        // 글 삭제
+        client()
+                .delete()
+                .uri("article/1")
                 .header("Authorization", token)
                 .exchange()
-                .expectBody(PointResponseDto.class)
-                .returnResult().getResponseBody();
+                .expectStatus().isOk();
 
-        Assertions.assertThat(pointResponseDto.getPoint()).isEqualTo(0);
-
-        // 같은 아이디로 회원가입
-        SignupUserDto signupUserDto2 = new SignupUserDto("userid", "1234", "kim");
+        // 글 삭제 후 조회
         client()
-                .post()
-                .uri("/user/signup")
-                .body(Mono.just(signupUserDto2), SignupUserDto.class)
+                .get()
+                .uri("article/1")
+                .header("Authorization", token)
                 .exchange()
                 .expectStatus().isBadRequest();
     }

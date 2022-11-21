@@ -36,7 +36,7 @@ public class Article {
     }
 
     public static Article of(AddArticleDto articleDto, User user) {
-        return new Article(articleDto.getArticleTitle(), articleDto.getArticleTitle(), user);
+        return new Article(articleDto.getArticleTitle(), articleDto.getArticleContents(), user);
     }
 
     public void update(UpdateArticleDto articleDto) {

@@ -8,15 +8,12 @@ import org.springframework.http.ResponseEntity;
 @Builder
 @Getter
 public class ErrorResponse {
-
     private String result;
     private String errorMsg;
-
     public ErrorResponse(String result, String errorMsg) {
         this.result = result;
         this.errorMsg = errorMsg;
     }
-
     public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode info) {
         return ResponseEntity
                 .status(info.getHttpStatus())

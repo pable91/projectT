@@ -7,10 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class PointResponseDto {
-
     private String userId;
     private int point;
-
     public PointResponseDto(User currentUser) {
         this.userId = currentUser.getUserId();
         this.point = currentUser.getPoint();

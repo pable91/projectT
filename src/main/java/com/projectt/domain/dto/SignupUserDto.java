@@ -7,7 +7,6 @@ public class SignupUserDto {
     private String userid;
     private String pw;
     private String username;
-
     @Override
     public String toString() {
         return "SignupUserDto{" +

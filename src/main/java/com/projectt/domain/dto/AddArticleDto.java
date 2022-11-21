@@ -6,7 +6,6 @@ import lombok.Getter;
 public class AddArticleDto {
     private String articleTitle;
     private String articleContents;
-
     @Override
     public String toString() {
         return "AddArticleDto{" +

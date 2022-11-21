@@ -13,9 +13,7 @@ import com.projectt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -35,6 +33,14 @@ public class CommentController {
         log.info(response.toString());
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping("/comments/{commentsId}")
+    public ResponseEntity<CommentsResponseDto> deleteComment(@PathVariable Long commentsId) {
+        CommentsResponseDto response = commentService.deleteComment(commentsId);
+
+        deletePointByComments(response);
+
+        return ResponseEntity.ok(response);
+    }
 
     private void addPointByComment(CommentsResponseDto response) {
         // 댓글 등록한 사람 add point
@@ -47,6 +53,22 @@ public class CommentController {
         // 원글 작성자 add Point
         User articleWriter = articleService.findById(response.getArticleId()).getUser();
         userService.increasePointByAddComments(
+                articleWriter,
+                1
+        );
+    }
+
+    private void deletePointByComments(CommentsResponseDto response) {
+        // 댓글 등록한 사람 subtract point
+        userService.decreasePointByDeleteComments(
+                SecurityUtil.getCurrentUser()
+                        .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)),
+                2
+        );
+
+        // 원글 작성자 subtract Point
+        User articleWriter = articleService.findById(response.getArticleId()).getUser();
+        userService.decreasePointByDeleteComments(
                 articleWriter,
                 1
         );

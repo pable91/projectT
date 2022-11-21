@@ -76,4 +76,12 @@ public class UserService {
 
         findUser.increasePointByAddComments(point);
     }
+
+    public void decreasePointByDeleteComments(User user, int point) {
+        User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
+                () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
+        );
+
+        findUser.decreasePointByAddComments(point);
+    }
 }

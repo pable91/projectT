@@ -21,8 +21,6 @@ public class User {
 
     private int point;
 
-//    private List<Article> articleList = new ArrayList<>();
-
     public User(String userId, String pw) {
         this.userId = userId;
         this.pw = pw;
@@ -46,6 +44,16 @@ public class User {
     }
 
     public void increasePointByAddComments(int point) {
+        if(point < 0) {
+            throw new RuntimeException("point 값은 양수만 가능합니다");
+        }
         this.point += point;
+    }
+
+    public void decreasePointByAddComments(int point) {
+        if(point < 0) {
+            throw new RuntimeException("point 값은 양수만 가능합니다");
+        }
+        this.point -= point;
     }
 }

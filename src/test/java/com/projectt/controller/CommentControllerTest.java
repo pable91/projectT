@@ -1,10 +1,9 @@
 package com.projectt.controller;
 
-import com.projectt.common.security.SecurityUtil;
-import com.projectt.domain.dto.AddArticleDto;
-import com.projectt.domain.dto.AddCommentDto;
-import com.projectt.domain.dto.LoginUserDto;
-import com.projectt.domain.dto.SignupUserDto;
+import com.projectt.domain.dto.request.AddArticleDto;
+import com.projectt.domain.dto.request.AddCommentDto;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.dto.response.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

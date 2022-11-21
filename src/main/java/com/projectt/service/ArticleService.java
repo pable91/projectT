@@ -1,9 +1,9 @@
 package com.projectt.service;
 
-import com.projectt.domain.dto.UpdateArticleDto;
+import com.projectt.domain.dto.request.UpdateArticleDto;
 import com.projectt.domain.model.Article;
 import com.projectt.domain.model.User;
-import com.projectt.domain.dto.AddArticleDto;
+import com.projectt.domain.dto.request.AddArticleDto;
 import com.projectt.repository.ArticleRepository;
 import com.projectt.common.ErrorCode;
 import com.projectt.common.exception.NotFoundArticleException;

@@ -1,7 +1,7 @@
 package com.projectt.controller;
 
-import com.projectt.domain.dto.LoginUserDto;
-import com.projectt.domain.dto.SignupUserDto;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.dto.response.PointResponseDto;
 import com.projectt.domain.dto.response.TokenResponseDto;
 import com.projectt.domain.dto.response.UserResponseDto;

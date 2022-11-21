@@ -3,8 +3,8 @@ package com.projectt.controller;
 import com.projectt.common.ErrorCode;
 import com.projectt.common.exception.NotFoundUserException;
 import com.projectt.common.security.SecurityUtil;
-import com.projectt.domain.dto.AddArticleDto;
-import com.projectt.domain.dto.UpdateArticleDto;
+import com.projectt.domain.dto.request.AddArticleDto;
+import com.projectt.domain.dto.request.UpdateArticleDto;
 import com.projectt.domain.dto.response.ArticleResponseDto;
 import com.projectt.domain.dto.response.ArticleViewResponseDto;
 import com.projectt.domain.model.Article;
@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class ArticleController {
     private final UserService userService;
 
     @PostMapping("/article")
-    public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody AddArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody @Valid AddArticleDto articleDto) {
         log.info(articleDto.toString());
 
         Article article = articleService.addArticle(articleDto);
@@ -37,7 +39,7 @@ public class ArticleController {
     }
 
     @PutMapping("/article")
-    public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody UpdateArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody @Valid UpdateArticleDto articleDto) {
         log.info(articleDto.toString());
 
         Article article = articleService.updateArticle(articleDto);

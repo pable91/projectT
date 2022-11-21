@@ -1,6 +1,6 @@
 package com.projectt.domain.model;
 
-import com.projectt.domain.dto.AddCommentDto;
+import com.projectt.domain.dto.request.AddCommentDto;
 import lombok.Getter;
 
 import javax.persistence.*;

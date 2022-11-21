@@ -3,7 +3,7 @@ package com.projectt.service;
 import com.projectt.common.ErrorCode;
 import com.projectt.common.exception.NotFoundArticleException;
 import com.projectt.common.exception.NotFoundCommentException;
-import com.projectt.domain.dto.AddCommentDto;
+import com.projectt.domain.dto.request.AddCommentDto;
 import com.projectt.domain.dto.response.CommentsResponseDto;
 import com.projectt.domain.model.Article;
 import com.projectt.domain.model.Comment;

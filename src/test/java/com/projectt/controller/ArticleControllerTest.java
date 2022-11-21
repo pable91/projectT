@@ -1,9 +1,9 @@
 package com.projectt.controller;
 
-import com.projectt.domain.dto.AddArticleDto;
-import com.projectt.domain.dto.LoginUserDto;
-import com.projectt.domain.dto.SignupUserDto;
-import com.projectt.domain.dto.UpdateArticleDto;
+import com.projectt.domain.dto.request.AddArticleDto;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
+import com.projectt.domain.dto.request.UpdateArticleDto;
 import com.projectt.domain.dto.response.ArticleResponseDto;
 import com.projectt.domain.dto.response.ArticleViewResponseDto;
 import com.projectt.domain.dto.response.TokenResponseDto;

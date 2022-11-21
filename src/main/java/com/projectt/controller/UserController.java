@@ -6,8 +6,8 @@ import com.projectt.domain.model.User;
 import com.projectt.domain.dto.response.PointResponseDto;
 import com.projectt.common.ErrorCode;
 import com.projectt.common.exception.NotFoundUserException;
-import com.projectt.domain.dto.LoginUserDto;
-import com.projectt.domain.dto.SignupUserDto;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
 import com.projectt.common.security.SecurityUtil;
@@ -17,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -28,7 +30,7 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> signUp(@RequestBody SignupUserDto signupUserDto) {
+    public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid SignupUserDto signupUserDto) {
         log.info(signupUserDto.toString());
 
         User newUser = userService.signup(signupUserDto);
@@ -38,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<TokenResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid LoginUserDto loginUserDto) {
         log.info(loginUserDto.toString());
 
         User user = userService.login(loginUserDto);

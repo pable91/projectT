@@ -1,7 +1,7 @@
 package com.projectt.service;
 
-import com.projectt.domain.dto.LoginUserDto;
-import com.projectt.domain.dto.SignupUserDto;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.model.User;
 import com.projectt.repository.UserRepository;
 import com.projectt.common.ErrorCode;

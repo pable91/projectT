@@ -1,7 +1,7 @@
 package com.projectt.domain.model;
 
-import com.projectt.domain.dto.AddArticleDto;
-import com.projectt.domain.dto.UpdateArticleDto;
+import com.projectt.domain.dto.request.AddArticleDto;
+import com.projectt.domain.dto.request.UpdateArticleDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

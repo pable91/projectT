@@ -11,7 +11,7 @@
 ## Swagger URL
 http://localhost:8080/swagger-ui.html#/
 
-## 구현기능
+## 완료 구현기능
 - 회원가입
 - 로그인
 - 유저 프로필 조회
@@ -25,5 +25,7 @@ http://localhost:8080/swagger-ui.html#/
 
 ## 테스트 목록
 - 도메인 단위 테스트
-- Controller 테스트(인수테스트)
-- D 검증 테스트
+- Controller 테스트
+- DTO 검증 테스트
+
+## 후기

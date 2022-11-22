@@ -27,5 +27,6 @@ http://localhost:8080/swagger-ui.html#/
 - 도메인 단위 테스트
 - Controller 테스트
 - DTO 검증 테스트
+- 예외 테스트
 
 ## 후기

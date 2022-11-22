@@ -10,6 +10,11 @@
 
 ## Swagger URL
 http://localhost:8080/swagger-ui.html#/
+- 주의사항 :   
+```
+회원가입, 로그인순으로 진행하고 응답으로 반환된 token을 Swagger Authorization에 설정해줘야함.   
+적용은 ((( Bearer token ))) 라고 설정해야한다. 참고 : https://lemontia.tistory.com/1027
+```
 
 ## 완료 구현기능
 - 회원가입

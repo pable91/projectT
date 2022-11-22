@@ -1,5 +1,6 @@
 package com.projectt.domain.dto.request;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,9 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class LoginUserDto {
 
+    @ApiModelProperty(value = "유저 아이디", example = "userId1", required = true)
     @NotBlank
     private String userid;
 
+    @ApiModelProperty(value = "패스워드", example = "1234", required = true)
     @NotBlank
     private String pw;
 

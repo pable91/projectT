@@ -1,5 +1,6 @@
 package com.projectt.domain.dto.request;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,10 +11,15 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class UpdateArticleDto {
 
+    @ApiModelProperty(value = "글 ID", example = "1", required = true)
     @Min(1L)
     private Long articleId;
+
+    @ApiModelProperty(value = "글 제목", example = "title1 update", required = true)
     @NotBlank
     private String articleTitle;
+
+    @ApiModelProperty(value = "글 내용", example = "contents1 update")
     private String articleContents;
 
     @Override

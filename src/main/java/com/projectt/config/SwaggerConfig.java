@@ -2,22 +2,19 @@ package com.projectt.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Parameter;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -30,33 +27,43 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        Parameter parameterBuilder = new ParameterBuilder()
-                .name(HttpHeaders.AUTHORIZATION)
-                .description("Access Tocken")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(false)
-                .build();
-
-        List<Parameter> globalParamters = new ArrayList<>();
-        globalParamters.add(parameterBuilder);
-
         return new Docket(DocumentationType.SWAGGER_2)
-                .globalOperationParameters(globalParamters)
-                .apiInfo(apiInfo())
+                .apiInfo(metaData())
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.projectt.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.projectt"))
                 .paths(PathSelectors.ant("/**"))
                 .build();
     }
 
-    public ApiInfo apiInfo() {
+    private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title(API_NAME)
-                .version(API_VERSION)
-                .description(API_DESCRIPTION)
+                .title("Project T Api")
+                .description("Project T Api Description")
+                .version("1.0")
+                .license("Apache License Version 2.0")
                 .build();
     }
 
+    private ApiKey apiKey() {
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
 
+    private SecurityContext securityContext() {
+        return springfox
+                .documentation
+                .spi.service
+                .contexts
+                .SecurityContext
+                .builder()
+                .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
+    }
+
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+    }
 }

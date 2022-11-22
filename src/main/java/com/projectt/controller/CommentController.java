@@ -9,6 +9,8 @@ import com.projectt.domain.model.User;
 import com.projectt.service.ArticleService;
 import com.projectt.service.CommentService;
 import com.projectt.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class CommentController {
     private final ArticleService articleService;
 
     @PostMapping("/comments")
+    @ApiOperation(value = "댓글 등록", notes = "articleId는 1이상, contents는 필수값이다")
     public ResponseEntity<CommentsResponseDto> addComment(@RequestBody AddCommentDto addCommentDTO) {
         CommentsResponseDto response = commentService.addComment(addCommentDTO);
 
@@ -34,7 +37,9 @@ public class CommentController {
     }
 
     @DeleteMapping("/comments/{commentsId}")
-    public ResponseEntity<CommentsResponseDto> deleteComment(@PathVariable Long commentsId) {
+    @ApiOperation(value = "댓글 삭제")
+    public ResponseEntity<CommentsResponseDto> deleteComment(@ApiParam(value = "댓글 ID", example = "2") @PathVariable Long commentsId) {
+
         CommentsResponseDto response = commentService.deleteComment(commentsId);
 
         deletePointByComments(response);

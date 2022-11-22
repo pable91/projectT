@@ -1,5 +1,6 @@
 package com.projectt.domain.dto.request;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,9 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class AddArticleDto {
 
+    @ApiModelProperty(value = "글 제목", example = "title1", required = true)
     @NotBlank
     private String articleTitle;
 
+    @ApiModelProperty(value = "글 내용", example = "contents1", required = true)
     @NotBlank
     private String articleContents;
 

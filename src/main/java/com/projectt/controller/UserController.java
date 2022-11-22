@@ -1,16 +1,17 @@
 package com.projectt.controller;
 
+import com.projectt.common.ErrorCode;
+import com.projectt.common.exception.NotFoundUserException;
+import com.projectt.common.security.SecurityUtil;
+import com.projectt.domain.dto.request.LoginUserDto;
+import com.projectt.domain.dto.request.SignupUserDto;
+import com.projectt.domain.dto.response.PointResponseDto;
 import com.projectt.domain.dto.response.TokenResponseDto;
 import com.projectt.domain.dto.response.UserResponseDto;
 import com.projectt.domain.model.User;
-import com.projectt.domain.dto.response.PointResponseDto;
-import com.projectt.common.ErrorCode;
-import com.projectt.common.exception.NotFoundUserException;
-import com.projectt.domain.dto.request.LoginUserDto;
-import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.jwt.JwtTokenProvider;
 import com.projectt.service.UserService;
-import com.projectt.common.security.SecurityUtil;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,7 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
+    @ApiOperation(value = "회원가입", notes = "userId와 pw를 필수값으로 입력해야한다")
     public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid SignupUserDto signupUserDto) {
         log.info(signupUserDto.toString());
 
@@ -40,6 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
+    @ApiOperation(value = "로그인", notes = "userId와 pw를 필수값으로 입력해야한다")
     public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid LoginUserDto loginUserDto) {
         log.info(loginUserDto.toString());
 
@@ -53,6 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
+    @ApiOperation(value = "유저 프로필 조회")
     public ResponseEntity<UserResponseDto> profile() {
         User currentUser = SecurityUtil.getCurrentUser()
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
@@ -61,6 +65,7 @@ public class UserController {
     }
 
     @GetMapping("/points")
+    @ApiOperation(value = "유저 포인트 조회")
     public ResponseEntity<PointResponseDto> viewMyPoints() {
         User currentUser = SecurityUtil.getCurrentUser()
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));

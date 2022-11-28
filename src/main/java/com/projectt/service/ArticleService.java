@@ -21,7 +21,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public Article addArticle(AddArticleDto articleDto) {
+    public Article addArticle(final AddArticleDto articleDto) {
         Optional<User> currentUser = SecurityUtil.getCurrentUser();
 
         Article article = Article.of(articleDto, currentUser.get());
@@ -31,7 +31,7 @@ public class ArticleService {
         return article;
     }
 
-    public Article updateArticle(UpdateArticleDto articleDto) {
+    public Article updateArticle(final UpdateArticleDto articleDto) {
         Article article = articleRepository.findById(articleDto.getArticleId()).orElseThrow(
                 () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
         );
@@ -41,13 +41,13 @@ public class ArticleService {
         return article;
     }
 
-    public Article findById(Long articleId) {
+    public Article findById(final Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(
                 () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
         );
     }
 
-    public Article delete(Long articleId) {
+    public Article delete(final Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
         );

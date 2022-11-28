@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입", notes = "userId와 pw를 필수값으로 입력해야한다")
-    public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid SignupUserDto signupUserDto) {
+    public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid final SignupUserDto signupUserDto) {
         log.info(signupUserDto.toString());
 
         User newUser = userService.signup(signupUserDto);
@@ -43,7 +43,7 @@ public class UserController {
 
     @PostMapping("/signin")
     @ApiOperation(value = "로그인", notes = "userId와 pw를 필수값으로 입력해야한다")
-    public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid LoginUserDto loginUserDto) {
+    public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid final LoginUserDto loginUserDto) {
         log.info(loginUserDto.toString());
 
         User user = userService.login(loginUserDto);

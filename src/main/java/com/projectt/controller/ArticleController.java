@@ -28,7 +28,7 @@ public class ArticleController {
 
     @PostMapping("/article")
     @ApiOperation(value = "글 등록", notes = "title과 contents를 필수값으로 입력해야한다")
-    public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody @Valid AddArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody @Valid final AddArticleDto articleDto) {
         log.info(articleDto.toString());
 
         Article article = articleService.addArticle(articleDto);
@@ -43,7 +43,7 @@ public class ArticleController {
 
     @PutMapping("/article")
     @ApiOperation(value = "글 수정", notes = "articleID 1이상의 값이여야한다")
-    public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody @Valid UpdateArticleDto articleDto) {
+    public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody @Valid final UpdateArticleDto articleDto) {
         log.info(articleDto.toString());
 
         Article article = articleService.updateArticle(articleDto);
@@ -53,7 +53,7 @@ public class ArticleController {
 
     @GetMapping("/article/{articleId}")
     @ApiOperation(value = "글 조회", notes = "articleID 1이상의 값이여야한다")
-    public ResponseEntity<ArticleViewResponseDto> viewArticle(@ApiParam(value = "글 ID", example = "1") @PathVariable Long articleId) {
+    public ResponseEntity<ArticleViewResponseDto> viewArticle(@ApiParam(value = "글 ID", example = "1") @PathVariable final Long articleId) {
         log.info(String.valueOf(articleId));
 
         Article article = articleService.findById(articleId);
@@ -65,7 +65,7 @@ public class ArticleController {
 
     @DeleteMapping("/article/{articleId}")
     @ApiOperation(value = "글 삭제", notes = "articleID 1이상의 값이여야한다")
-    public ResponseEntity<Long> deleteArticle(@ApiParam(value = "글 ID", example = "1") @PathVariable Long articleId) {
+    public ResponseEntity<Long> deleteArticle(@ApiParam(value = "글 ID", example = "1") @PathVariable final Long articleId) {
         log.info(String.valueOf(articleId));
 
         deleteUserPoint(articleId);
@@ -75,7 +75,7 @@ public class ArticleController {
         return ResponseEntity.ok(1L);
     }
 
-    private void deleteUserPoint(Long articleId) {
+    private void deleteUserPoint(final Long articleId) {
         Article article = articleService.findById(articleId);
         userService.decreasePointByDeleteArticle(article.getUser());
     }

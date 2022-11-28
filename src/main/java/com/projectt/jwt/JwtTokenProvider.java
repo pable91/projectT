@@ -36,7 +36,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userId) {
+    public String createToken(final String userId) {
         Date now = new Date();
         Claims claims = Jwts.claims()
                 .setSubject("access_token")
@@ -52,7 +52,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public String resolveToken(final HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -62,7 +62,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public boolean validateToken(String jwtToken) {
+    public boolean validateToken(final String jwtToken) {
         try {
             Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
 
@@ -72,16 +72,16 @@ public class JwtTokenProvider {
         }
     }
 
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(final String token) {
         User user = getUserByToken(token);
         return new UsernamePasswordAuthenticationToken(user, "", null);
     }
 
-    public String getUserPk(String token) {
+    public String getUserPk(final String token) {
         return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userId");
     }
 
-    public User getUserByToken(String token) {
+    public User getUserByToken(final String token) {
         return userInfoService.loadUserByUsername(getUserPk(token));
     }
 }

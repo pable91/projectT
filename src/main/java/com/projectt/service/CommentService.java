@@ -23,7 +23,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
 
-    public CommentsResponseDto addComment(AddCommentDto addCommentDTO) {
+    public CommentsResponseDto addComment(final AddCommentDto addCommentDTO) {
         Long articleId = addCommentDTO.getArticleId();
         Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new NotFoundArticleException(ErrorCode.NOT_FOUND_ARTICLE)
@@ -37,7 +37,7 @@ public class CommentService {
         return new CommentsResponseDto(articleId, comment.getId());
     }
 
-    public CommentsResponseDto deleteComment(Long commentsId) {
+    public CommentsResponseDto deleteComment(final Long commentsId) {
         Comment comment = commentRepository.findById(commentsId).orElseThrow(
                 () -> new NotFoundCommentException(ErrorCode.NOT_FOUND_COMMENT)
         );

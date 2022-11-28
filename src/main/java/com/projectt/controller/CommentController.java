@@ -27,7 +27,7 @@ public class CommentController {
 
     @PostMapping("/comments")
     @ApiOperation(value = "댓글 등록", notes = "articleId는 1이상, contents는 필수값이다")
-    public ResponseEntity<CommentsResponseDto> addComment(@RequestBody AddCommentDto addCommentDTO) {
+    public ResponseEntity<CommentsResponseDto> addComment(@RequestBody final AddCommentDto addCommentDTO) {
         CommentsResponseDto response = commentService.addComment(addCommentDTO);
 
         addPointByComment(response);
@@ -38,7 +38,7 @@ public class CommentController {
 
     @DeleteMapping("/comments/{commentsId}")
     @ApiOperation(value = "댓글 삭제")
-    public ResponseEntity<CommentsResponseDto> deleteComment(@ApiParam(value = "댓글 ID", example = "2") @PathVariable Long commentsId) {
+    public ResponseEntity<CommentsResponseDto> deleteComment(@ApiParam(value = "댓글 ID", example = "2") @PathVariable final Long commentsId) {
 
         CommentsResponseDto response = commentService.deleteComment(commentsId);
 
@@ -47,7 +47,7 @@ public class CommentController {
         return ResponseEntity.ok(response);
     }
 
-    private void addPointByComment(CommentsResponseDto response) {
+    private void addPointByComment(final CommentsResponseDto response) {
         // 댓글 등록한 사람 add point
         userService.increasePointByAddComments(
                 SecurityUtil.getCurrentUser()
@@ -63,7 +63,7 @@ public class CommentController {
         );
     }
 
-    private void deletePointByComments(CommentsResponseDto response) {
+    private void deletePointByComments(final CommentsResponseDto response) {
         // 댓글 등록한 사람 subtract point
         userService.decreasePointByDeleteComments(
                 SecurityUtil.getCurrentUser()

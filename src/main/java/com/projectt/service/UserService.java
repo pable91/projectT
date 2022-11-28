@@ -24,7 +24,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User signup(SignupUserDto signupUserDto) {
+    public User signup(final SignupUserDto signupUserDto) {
+
         String userId = signupUserDto.getUserid();
 
         Optional<User> findUser = userRepository.findByUserId(userId);
@@ -39,7 +40,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User login(LoginUserDto loginUserDto) {
+    public User login(final LoginUserDto loginUserDto) {
         String userId = loginUserDto.getUserid();
 
         User findUser = userRepository.findByUserId(userId).orElseThrow(
@@ -53,7 +54,7 @@ public class UserService {
         return findUser;
     }
 
-    public void increasePointByAddArticle(User user) {
+    public void increasePointByAddArticle(final User user) {
         User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
                 () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
         );
@@ -61,7 +62,7 @@ public class UserService {
         findUser.increasePointByAddArticle();
     }
 
-    public void decreasePointByDeleteArticle(User user) {
+    public void decreasePointByDeleteArticle(final User user) {
         User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
                 () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
         );
@@ -69,7 +70,7 @@ public class UserService {
         findUser.decreasePointByAddArticle();
     }
 
-    public void increasePointByAddComments(User user, int point) {
+    public void increasePointByAddComments(final User user, final int point) {
         User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
                 () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
         );
@@ -77,7 +78,7 @@ public class UserService {
         findUser.increasePointByAddComments(point);
     }
 
-    public void decreasePointByDeleteComments(User user, int point) {
+    public void decreasePointByDeleteComments(final User user, final int point) {
         User findUser = userRepository.findByUserId(user.getUserId()).orElseThrow(
                 () -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)
         );

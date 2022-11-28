@@ -13,14 +13,14 @@ public class UpdateArticleDto {
 
     @ApiModelProperty(value = "글 ID", example = "1", required = true)
     @Min(1L)
-    private Long articleId;
+    private final Long articleId;
 
     @ApiModelProperty(value = "글 제목", example = "title1 update", required = true)
     @NotBlank
-    private String articleTitle;
+    private final String articleTitle;
 
     @ApiModelProperty(value = "글 내용", example = "contents1 update")
-    private String articleContents;
+    private final String articleContents;
 
     @Override
     public String toString() {

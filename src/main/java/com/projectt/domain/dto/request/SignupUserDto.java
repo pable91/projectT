@@ -14,15 +14,15 @@ public class SignupUserDto {
 
     @ApiModelProperty(value = "유저 아이디", example = "userId1", required = true)
     @NotBlank
-    private String userid;
+    private final String userid;
 
     @ApiModelProperty(value = "패스워드", example = "1234", required = true)
     @NotBlank
-    private String pw;
+    private final String pw;
 
     @ApiModelProperty(value = "유저 이름", example = "kim", required = true)
     @NotBlank
-    private String username;
+    private final String username;
 
     @Override
     public String toString() {

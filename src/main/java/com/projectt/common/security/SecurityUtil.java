@@ -1,6 +1,8 @@
 package com.projectt.common.security;
 
 import com.projectt.domain.model.User;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -8,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SecurityUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);

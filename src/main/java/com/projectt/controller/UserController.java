@@ -10,7 +10,7 @@ import com.projectt.domain.dto.response.TokenResponseDto;
 import com.projectt.domain.dto.response.UserResponseDto;
 import com.projectt.domain.model.User;
 import com.projectt.jwt.JwtTokenProvider;
-import com.projectt.service.UserService;
+import com.projectt.service.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<UserResponseDto> signUp(@RequestBody @Valid final SignupUserDto signupUserDto) {
         log.info(signupUserDto.toString());
 
-        User newUser = userService.signup(signupUserDto);
+        User newUser = userServiceImpl.signup(signupUserDto);
         log.info(newUser.toString());
 
         return ResponseEntity.ok(new UserResponseDto(newUser));
@@ -46,7 +46,7 @@ public class UserController {
     public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid final LoginUserDto loginUserDto) {
         log.info(loginUserDto.toString());
 
-        User user = userService.login(loginUserDto);
+        User user = userServiceImpl.login(loginUserDto);
         String token = jwtTokenProvider.createToken(user.getUserId());
 
         HttpHeaders httpHeaders = new HttpHeaders();

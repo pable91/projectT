@@ -6,9 +6,9 @@ import com.projectt.common.security.SecurityUtil;
 import com.projectt.domain.dto.request.AddCommentDto;
 import com.projectt.domain.dto.response.CommentsResponseDto;
 import com.projectt.domain.model.User;
-import com.projectt.service.ArticleService;
+import com.projectt.service.ArticleServiceImpl;
 import com.projectt.service.CommentService;
-import com.projectt.service.UserService;
+import com.projectt.service.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
-    private final UserService userService;
-    private final ArticleService articleService;
+    private final UserServiceImpl userServiceImpl;
+    private final ArticleServiceImpl articleServiceImpl;
 
     @PostMapping("/comments")
     @ApiOperation(value = "댓글 등록", notes = "articleId는 1이상, contents는 필수값이다")
@@ -49,15 +49,15 @@ public class CommentController {
 
     private void addPointByComment(final CommentsResponseDto response) {
         // 댓글 등록한 사람 add point
-        userService.increasePointByAddComments(
+        userServiceImpl.increasePointByAddComments(
                 SecurityUtil.getCurrentUser()
                         .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)),
                 2
         );
 
         // 원글 작성자 add Point
-        User articleWriter = articleService.findById(response.getArticleId()).getUser();
-        userService.increasePointByAddComments(
+        User articleWriter = articleServiceImpl.findById(response.getArticleId()).getUser();
+        userServiceImpl.increasePointByAddComments(
                 articleWriter,
                 1
         );
@@ -65,15 +65,15 @@ public class CommentController {
 
     private void deletePointByComments(final CommentsResponseDto response) {
         // 댓글 등록한 사람 subtract point
-        userService.decreasePointByDeleteComments(
+        userServiceImpl.decreasePointByDeleteComments(
                 SecurityUtil.getCurrentUser()
                         .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER)),
                 2
         );
 
         // 원글 작성자 subtract Point
-        User articleWriter = articleService.findById(response.getArticleId()).getUser();
-        userService.decreasePointByDeleteComments(
+        User articleWriter = articleServiceImpl.findById(response.getArticleId()).getUser();
+        userServiceImpl.decreasePointByDeleteComments(
                 articleWriter,
                 1
         );

@@ -8,8 +8,8 @@ import com.projectt.domain.dto.request.UpdateArticleDto;
 import com.projectt.domain.dto.response.ArticleResponseDto;
 import com.projectt.domain.dto.response.ArticleViewResponseDto;
 import com.projectt.domain.model.Article;
-import com.projectt.service.ArticleService;
-import com.projectt.service.UserService;
+import com.projectt.service.ArticleServiceImpl;
+import com.projectt.service.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +23,17 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 public class ArticleController {
-    private final ArticleService articleService;
-    private final UserService userService;
+    private final ArticleServiceImpl articleServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
     @PostMapping("/article")
     @ApiOperation(value = "글 등록", notes = "title과 contents를 필수값으로 입력해야한다")
     public ResponseEntity<ArticleResponseDto> writeArticle(@RequestBody @Valid final AddArticleDto articleDto) {
         log.info(articleDto.toString());
 
-        Article article = articleService.addArticle(articleDto);
+        Article article = articleServiceImpl.addArticle(articleDto);
 
-        userService.increasePointByAddArticle(
+        userServiceImpl.increasePointByAddArticle(
                 SecurityUtil.getCurrentUser()
                 .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER))
         );
@@ -46,7 +46,7 @@ public class ArticleController {
     public ResponseEntity<ArticleResponseDto> updateArticle(@RequestBody @Valid final UpdateArticleDto articleDto) {
         log.info(articleDto.toString());
 
-        Article article = articleService.updateArticle(articleDto);
+        Article article = articleServiceImpl.updateArticle(articleDto);
 
         return ResponseEntity.ok(new ArticleResponseDto(article));
     }
@@ -56,7 +56,7 @@ public class ArticleController {
     public ResponseEntity<ArticleViewResponseDto> viewArticle(@ApiParam(value = "글 ID", example = "1") @PathVariable final Long articleId) {
         log.info(String.valueOf(articleId));
 
-        Article article = articleService.findById(articleId);
+        Article article = articleServiceImpl.findById(articleId);
 
         ArticleViewResponseDto responseDto = ArticleViewResponseDto.of(article);
 
@@ -70,13 +70,13 @@ public class ArticleController {
 
         deleteUserPoint(articleId);
 
-        articleService.delete(articleId);
+        articleServiceImpl.delete(articleId);
 
         return ResponseEntity.ok(1L);
     }
 
     private void deleteUserPoint(final Long articleId) {
-        Article article = articleService.findById(articleId);
-        userService.decreasePointByDeleteArticle(article.getUser());
+        Article article = articleServiceImpl.findById(articleId);
+        userServiceImpl.decreasePointByDeleteArticle(article.getUser());
     }
 }

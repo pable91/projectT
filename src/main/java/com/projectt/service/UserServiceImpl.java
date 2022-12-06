@@ -1,5 +1,6 @@
 package com.projectt.service;
 
+import com.projectt.common.security.SecurityUtil;
 import com.projectt.domain.dto.request.LoginUserDto;
 import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.model.User;
@@ -25,7 +26,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signup(final SignupUserDto signupUserDto) {
-
         String userId = signupUserDto.getUserid();
 
         Optional<User> findUser = userRepository.findByUserId(userId);
@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return user;
     }
-
     @Override
     @Transactional(readOnly = true)
     public User login(final LoginUserDto loginUserDto) {
@@ -53,6 +52,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return findUser;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return SecurityUtil.getCurrentUser()
+                .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
     }
 
     public void increasePointByAddArticle(final User user) {

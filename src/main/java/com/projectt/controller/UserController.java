@@ -1,8 +1,5 @@
 package com.projectt.controller;
 
-import com.projectt.common.ErrorCode;
-import com.projectt.common.exception.NotFoundUserException;
-import com.projectt.common.security.SecurityUtil;
 import com.projectt.domain.dto.request.LoginUserDto;
 import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.dto.response.PointResponseDto;
@@ -58,8 +55,7 @@ public class UserController {
     @GetMapping("/profile")
     @ApiOperation(value = "유저 프로필 조회")
     public ResponseEntity<UserResponseDto> profile() {
-        User currentUser = SecurityUtil.getCurrentUser()
-                .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
+        User currentUser = userServiceImpl.getCurrentUser();
 
         return ResponseEntity.ok(new UserResponseDto(currentUser));
     }
@@ -67,8 +63,7 @@ public class UserController {
     @GetMapping("/points")
     @ApiOperation(value = "유저 포인트 조회")
     public ResponseEntity<PointResponseDto> viewMyPoints() {
-        User currentUser = SecurityUtil.getCurrentUser()
-                .orElseThrow(() -> new NotFoundUserException(ErrorCode.NOT_FOUND_USER));
+        User currentUser = userServiceImpl.getCurrentUser();
 
         return ResponseEntity.ok(new PointResponseDto(currentUser));
     }

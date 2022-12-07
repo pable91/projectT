@@ -1,4 +1,4 @@
-package com.projectt.controller;
+package com.projectt.acceptance;
 
 import com.projectt.domain.dto.request.LoginUserDto;
 import com.projectt.domain.dto.request.SignupUserDto;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-public class UserControllerTest {
+public class UserAcceptanceTest {
 
     @Test
     @DisplayName("유저 관련된 인수테스트")

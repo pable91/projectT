@@ -35,8 +35,7 @@ public class UserServiceImpl implements UserService {
 
         String pw = passwordEncoder.encode(signupUserDto.getPw());
         User user = new User(userId, pw);
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
     @Override
     @Transactional(readOnly = true)

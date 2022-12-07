@@ -1,23 +1,26 @@
-package com.projectt.controller;
+package com.projectt.acceptance;
 
 import com.projectt.domain.dto.request.AddArticleDto;
-import com.projectt.domain.dto.request.AddCommentDto;
 import com.projectt.domain.dto.request.LoginUserDto;
 import com.projectt.domain.dto.request.SignupUserDto;
-import com.projectt.domain.dto.response.*;
+import com.projectt.domain.dto.request.UpdateArticleDto;
+import com.projectt.domain.dto.response.ArticleResponseDto;
+import com.projectt.domain.dto.response.ArticleViewResponseDto;
+import com.projectt.domain.dto.response.TokenResponseDto;
+import com.projectt.domain.dto.response.UserResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-public class CommentControllerTest {
+public class ArticleAcceptanceTest {
 
     @Test
-    @DisplayName("댓글 관련 인수테스트")
-    void commentTest() {
+    @DisplayName("글 관련 인수테스트")
+    void articleTest() {
         // 회원가입
-        SignupUserDto signupUserDto = new SignupUserDto("userid3", "1234", "kim");
+        SignupUserDto signupUserDto = new SignupUserDto("userid2", "1234", "kim");
         UserResponseDto userResponseDto = client()
                 .post()
                 .uri("/user/signup")
@@ -27,13 +30,13 @@ public class CommentControllerTest {
                 .expectBody(UserResponseDto.class)
                 .returnResult().getResponseBody();
 
-        Assertions.assertThat(userResponseDto.getUserid()).isEqualTo("userid3");
+        Assertions.assertThat(userResponseDto.getUserid()).isEqualTo("userid2");
 
         // 로그인
-        LoginUserDto loginUserDto = new LoginUserDto("userid3", "1234");
+        LoginUserDto loginUserDto = new LoginUserDto("userid2", "1234");
         TokenResponseDto tokenResponseDto = client()
                 .post()
-                .uri("/user/signin")
+                .uri("user/signin")
                 .body(Mono.just(loginUserDto), LoginUserDto.class)
                 .exchange()
                 .expectStatus().isOk()
@@ -43,10 +46,10 @@ public class CommentControllerTest {
         String token = "Bearer " + tokenResponseDto.getToken();
 
         // 글 등록
-        AddArticleDto addArticleDto = new AddArticleDto("articleTitle with comment", "articleContents with comment");
+        AddArticleDto addArticleDto = new AddArticleDto("articleTitle1", "article Contents1");
         ArticleResponseDto articleResponseDto = client()
                 .post()
-                .uri("/article")
+                .uri("article")
                 .header("Authorization", token)
                 .body(Mono.just(addArticleDto), AddArticleDto.class)
                 .exchange()
@@ -56,48 +59,44 @@ public class CommentControllerTest {
 
         Long articleId = articleResponseDto.getArticleId();
 
-        // 코멘트 등록
-        AddCommentDto addCommentDto = new AddCommentDto(articleId, "comment@@@@");
-        CommentsResponseDto commentsResponseDto = client()
-                .post()
-                .uri("/comments")
+        // 글 수정
+        UpdateArticleDto updateArticleDto = new UpdateArticleDto(articleId, "articleTitle1 update", "article Contents1 update");
+        client()
+                .put()
+                .uri("article")
                 .header("Authorization", token)
-                .body(Mono.just(addCommentDto), AddCommentDto.class)
+                .body(Mono.just(updateArticleDto), UpdateArticleDto.class)
+                .exchange()
+                .expectStatus().isOk();
+
+        // 글 수정 후 조회
+        ArticleViewResponseDto articleViewResponseDto = client()
+                .get()
+                .uri("article/" + articleId)
+                .header("Authorization", token)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(CommentsResponseDto.class)
+                .expectBody(ArticleViewResponseDto.class)
                 .returnResult().getResponseBody();
 
-        // 코멘트 등록으로 인한 점수 조회
-        PointResponseDto pointResponseDto = client()
-                .get()
-                .uri("/user/points")
-                .header("Authorization", token)
-                .exchange()
-                .expectBody(PointResponseDto.class)
-                .returnResult().getResponseBody();
+        Assertions.assertThat(articleViewResponseDto.getTitle()).isEqualTo("articleTitle1 update");
+        Assertions.assertThat(articleViewResponseDto.getContents()).isEqualTo("article Contents1 update");
 
-        // 글 등록 3점 + 코멘트 등록자 2점 + 글 등록 원작자 1점 = 6점
-        Assertions.assertThat(pointResponseDto.getPoint()).isEqualTo(6);
-
-        // 코멘트 삭제
+        // 글 삭제
         client()
                 .delete()
-                .uri("/comments/" + commentsResponseDto.getCommentsId())
+                .uri("article/" + articleId)
                 .header("Authorization", token)
                 .exchange()
                 .expectStatus().isOk();
 
-        pointResponseDto = client()
+        // 글 삭제 후 조회
+        client()
                 .get()
-                .uri("/user/points")
+                .uri("article/" + articleId)
                 .header("Authorization", token)
                 .exchange()
-                .expectBody(PointResponseDto.class)
-                .returnResult().getResponseBody();
-
-        // 기존 6점 - 코멘트 삭제로 인한 3점 = 3
-        Assertions.assertThat(pointResponseDto.getPoint()).isEqualTo(3);
+                .expectStatus().isBadRequest();
     }
 
     private WebTestClient client() {

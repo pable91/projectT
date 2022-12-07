@@ -1,4 +1,4 @@
-package com.projectt.model;
+package com.projectt.unit;
 
 import com.projectt.domain.model.User;
 import org.assertj.core.api.Assertions;

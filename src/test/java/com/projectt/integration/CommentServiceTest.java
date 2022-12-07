@@ -1,8 +1,9 @@
-package com.projectt.service;
+package com.projectt.integration;
 
 import com.projectt.common.exception.NotFoundArticleException;
 import com.projectt.common.exception.NotFoundCommentException;
 import com.projectt.domain.dto.request.AddCommentDto;
+import com.projectt.service.CommentService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

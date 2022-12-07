@@ -1,4 +1,4 @@
-package com.projectt.dto;
+package com.projectt.unit.dto;
 
 import com.projectt.domain.dto.request.*;
 import org.assertj.core.api.Assertions;

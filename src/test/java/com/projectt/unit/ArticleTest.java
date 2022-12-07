@@ -1,4 +1,4 @@
-package com.projectt.model;
+package com.projectt.unit;
 
 import com.projectt.domain.dto.request.AddArticleDto;
 import com.projectt.domain.dto.request.UpdateArticleDto;

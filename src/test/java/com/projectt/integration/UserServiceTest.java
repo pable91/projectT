@@ -1,4 +1,4 @@
-package com.projectt.service;
+package com.projectt.integration;
 
 import com.projectt.common.exception.AlreadyExistUser;
 import com.projectt.common.exception.NotFoundUserException;
@@ -7,6 +7,7 @@ import com.projectt.common.exception.WrongPasswordException;
 import com.projectt.domain.dto.request.LoginUserDto;
 import com.projectt.domain.dto.request.SignupUserDto;
 import com.projectt.domain.model.User;
+import com.projectt.service.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

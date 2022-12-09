@@ -5,7 +5,7 @@
 - SpringBoot
 - JPA
 - maven
-- h2 embeded (sqlite로 작성하라는걸 잘못 봤습니다ㅠㅠ)
+- h2 embeded
 - jwt
 - Spring Security
 
